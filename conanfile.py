@@ -77,6 +77,7 @@ class LibSampleRateConan(ConanFile):
 
         tools.replace_in_file(cmake_file, "{}".format(cmake_project_line),
                               '''{}
+set(CMAKE_C_STANDARD 99)
 include(${{CMAKE_BINARY_DIR}}/conanbuildinfo.cmake)
 conan_basic_setup()'''.format(cmake_project_line))
-
+        self.output.warn("patch '{}' set C99 Standard".format(cmake_file))
