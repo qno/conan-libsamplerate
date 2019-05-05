@@ -60,7 +60,12 @@ class LibSampleRateConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = [self._libname]
+        self.cpp_info.libs = []
+
+        if self.settings.os == "Linux":
+            self.cpp_info.libs.append("m")
+
+        self.cpp_info.libs.append(self._libname)
 
     def _isVisualStudioBuild(self):
         return self.settings.os == "Windows" and self.settings.compiler == "Visual Studio"
