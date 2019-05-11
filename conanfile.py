@@ -61,14 +61,21 @@ class LibSampleRateConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = []
+        libname = self._libname
 
         if self.settings.os == "Linux":
             self.cpp_info.libs.append("m")
 
-        self.cpp_info.libs.append(self._libname)
+        if self._isMinGWBuild():
+            libname = "{}-0".format(self._libname)
+
+        self.cpp_info.libs.append(libname)
 
     def _isVisualStudioBuild(self):
         return self.settings.os == "Windows" and self.settings.compiler == "Visual Studio"
+
+    def _isMinGWBuild(self):
+        return self.settings.os == "Windows" and self.settings.compiler == "gcc"
 
     def _patchCMakeListsFile(self, src_dir):
         cmake_project_line = ""
