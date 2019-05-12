@@ -67,7 +67,8 @@ class LibSampleRateConan(ConanFile):
             self.cpp_info.libs.append("m")
 
         if self._isMinGWBuild():
-            libname = "{}-0".format(self._libname)
+            if self.options.shared:
+                libname = "{}-0".format(self._libname)
 
         self.cpp_info.libs.append(libname)
 
